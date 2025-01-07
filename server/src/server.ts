@@ -9,6 +9,7 @@ import './jobs/jobScheduler.js'
 import setupMiddleware from './setup/middleware.js';
 import setupRoutes from './setup/routes.js';
 import config from './config.js';
+import { startMetricsServer } from './8sleep/metricsServer.js';
 
 const port = 3000;
 const app = express();
@@ -78,6 +79,9 @@ async function startServer() {
   server = app.listen(port, () => {
     logger.debug(`Server running on http://localhost:${port}`);
   });
+
+  // Start metrics server
+  startMetricsServer();
 
   // Register signal handlers for graceful shutdown
   process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
